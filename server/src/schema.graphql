@@ -1,0 +1,17 @@
+type Query {
+	info: String!
+	feed: [Safari!]!
+	safari(id: ID!): Safari
+}
+
+type Mutation {
+	post(title: String!, description: String!): Safari!
+	updateSafari(id: ID!, title: String, description: String): Safari
+	deleteSafari(id: ID!): Safari
+}
+
+type Safari {
+	id: ID!
+	title: String!
+	description: String!
+}

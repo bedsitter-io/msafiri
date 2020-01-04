@@ -1,0 +1,11 @@
+{
+  "name": "msafiriapi",
+  "version": "1.0.0",
+  "description": "Msafiri API",
+  "main": "index.js",
+  "author": "karanja mochu",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.18.3"
+  }
+}
