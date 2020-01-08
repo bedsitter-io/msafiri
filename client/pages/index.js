@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import ButtonAppBar from '../components/navbar'
+// import ButtonAppBar from '../components/navbar'
 import SafariList from './SafariList'
 
 const Home = () => (
@@ -12,7 +12,7 @@ const Home = () => (
     </Head>
 
     <Nav />
-    <ButtonAppBar />
+    {/* <ButtonAppBar /> */}
 
     <div className="hero">
       <h1 className="title">Welcome to Msafiri</h1>
