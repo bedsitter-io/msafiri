@@ -1,45 +1,28 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Head from 'next/head'
+
 import Nav from '../components/nav'
-// import ButtonAppBar from '../components/navbar'
+import Header from '../components/homeHeader'
+import Footer from '../components/homeFooter'
 import SafariList from './SafariList'
 
-const Home = () => (
-  <div>
+const Home = () => {
+  return (
+  <>
     <Head>
       <title>Home</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-
+    <body style={{overflow: 'auto', width: '100%', margin: 'auto'}}>
     <Nav />
-    {/* <ButtonAppBar /> */}
-
-    <div className="hero">
-      <h1 className="title">Welcome to Msafiri</h1>
-      <p className="description">
-        A Traveller's Companion
-      </p>
+    <Header />
+    <main>
       <SafariList />
-    </div>
-
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-    `}</style>
-  </div>
-)
+     </main>
+     <Footer />
+     </body>
+   </>
+  );
+}
 
 export default Home

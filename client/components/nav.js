@@ -1,27 +1,73 @@
 import React from 'react'
 import Link from 'next/link'
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles(theme => ({
+  navbar :{
+    width: "100%",
+    position: "absolute",
+    textAlign: "center",
+    backgroundColor: "transparent"
+  },
+  menu: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
+  menuItem: {
+    display: "flex",
+    padding: "6px 8px"
+  },
+  item: {
+    color: "#000",
+    textDecoration: "none",
+    fontSize: "13px",
+    fontFamily: "Helvetica Neue"
+    },
+  logo: {
+    color: "#000",
+    textDecoration: "none",
+    fontSize: "27px",
+    fontWeight: "bolder",
+    fontFamily: "Montserrat"
+  }
+}));
 
 const links = [
-  { href: '/safari', label: 'Safari' },
+  { href: '/safari', label: 'Safaris' },
+  { href: '/#', label: 'Destinations' },
+  { href: '/#', label: 'Hotels & Lodges' },
+  { href: '/#', label: 'Login' },
 ].map(link => {
   link.key = `nav-link-${link.href}-${link.label}`
   return link
 })
 
-const Nav = () => (
-  <nav>
-    <ul>
-      <li>
+const Nav = () => {
+  const classes = useStyles();
+return (
+  <nav className={classes.navbar}>
+  <Grid
+  container
+  direction="row"
+  justify="space-between"
+  alignItems="center"
+>
+      <Grid>
         <Link href="/">
-          <a>Home</a>
+          <a className={classes.logo}>Msafari</a>
         </Link>
-      </li>
+        </Grid>
+        <Grid>
+    <ul className={classes.menu} >
       {links.map(({ key, href, label }) => (
-        <li key={key}>
-          <a href={href}>{label}</a>
+        <li className={classes.menuItem}>
+          <a className={classes.item} href={href}>{label}</a>
         </li>
       ))}
     </ul>
+    </Grid>
+    </Grid>
 
     <style jsx>{`
       :global(body) {
@@ -29,27 +75,8 @@ const Nav = () => (
         font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir,
           Helvetica, sans-serif;
       }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
     `}</style>
   </nav>
-)
+)}
 
 export default Nav
