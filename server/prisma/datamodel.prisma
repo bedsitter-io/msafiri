@@ -4,6 +4,7 @@ type Safari {
   title: String!
   description: String!
   postedBy: User
+  likes: [Like!]!
 }
 
 type User {
@@ -12,4 +13,11 @@ type User {
   email: String! @unique
   password: String!
   safaris: [Safari!]!
+  likes: [Like!]!
+}
+
+type Like {
+  id: ID! @unique
+  safari: Safari!
+  user: User!
 }

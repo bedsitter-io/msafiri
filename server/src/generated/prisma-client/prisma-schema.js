@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateSafari {
+/* GraphQL */ `type AggregateLike {
+  count: Int!
+}
+
+type AggregateSafari {
   count: Int!
 }
 
@@ -17,9 +21,184 @@ type BatchPayload {
 
 scalar DateTime
 
+type Like {
+  id: ID!
+  safari: Safari!
+  user: User!
+}
+
+type LikeConnection {
+  pageInfo: PageInfo!
+  edges: [LikeEdge]!
+  aggregate: AggregateLike!
+}
+
+input LikeCreateInput {
+  safari: SafariCreateOneWithoutLikesInput!
+  user: UserCreateOneWithoutLikesInput!
+}
+
+input LikeCreateManyWithoutSafariInput {
+  create: [LikeCreateWithoutSafariInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateWithoutSafariInput {
+  user: UserCreateOneWithoutLikesInput!
+}
+
+input LikeCreateWithoutUserInput {
+  safari: SafariCreateOneWithoutLikesInput!
+}
+
+type LikeEdge {
+  node: Like!
+  cursor: String!
+}
+
+enum LikeOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type LikePreviousValues {
+  id: ID!
+}
+
+input LikeScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  AND: [LikeScalarWhereInput!]
+  OR: [LikeScalarWhereInput!]
+  NOT: [LikeScalarWhereInput!]
+}
+
+type LikeSubscriptionPayload {
+  mutation: MutationType!
+  node: Like
+  updatedFields: [String!]
+  previousValues: LikePreviousValues
+}
+
+input LikeSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LikeWhereInput
+  AND: [LikeSubscriptionWhereInput!]
+  OR: [LikeSubscriptionWhereInput!]
+  NOT: [LikeSubscriptionWhereInput!]
+}
+
+input LikeUpdateInput {
+  safari: SafariUpdateOneRequiredWithoutLikesInput
+  user: UserUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateManyWithoutSafariInput {
+  create: [LikeCreateWithoutSafariInput!]
+  delete: [LikeWhereUniqueInput!]
+  connect: [LikeWhereUniqueInput!]
+  set: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutSafariInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutSafariInput!]
+  deleteMany: [LikeScalarWhereInput!]
+}
+
+input LikeUpdateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  delete: [LikeWhereUniqueInput!]
+  connect: [LikeWhereUniqueInput!]
+  set: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [LikeScalarWhereInput!]
+}
+
+input LikeUpdateWithoutSafariDataInput {
+  user: UserUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithoutUserDataInput {
+  safari: SafariUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithWhereUniqueWithoutSafariInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutSafariDataInput!
+}
+
+input LikeUpdateWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutUserDataInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutSafariInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutSafariDataInput!
+  create: LikeCreateWithoutSafariInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutUserDataInput!
+  create: LikeCreateWithoutUserInput!
+}
+
+input LikeWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  safari: SafariWhereInput
+  user: UserWhereInput
+  AND: [LikeWhereInput!]
+  OR: [LikeWhereInput!]
+  NOT: [LikeWhereInput!]
+}
+
+input LikeWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createLike(data: LikeCreateInput!): Like!
+  updateLike(data: LikeUpdateInput!, where: LikeWhereUniqueInput!): Like
+  upsertLike(where: LikeWhereUniqueInput!, create: LikeCreateInput!, update: LikeUpdateInput!): Like!
+  deleteLike(where: LikeWhereUniqueInput!): Like
+  deleteManyLikes(where: LikeWhereInput): BatchPayload!
   createSafari(data: SafariCreateInput!): Safari!
   updateSafari(data: SafariUpdateInput!, where: SafariWhereUniqueInput!): Safari
   updateManySafaris(data: SafariUpdateManyMutationInput!, where: SafariWhereInput): BatchPayload!
@@ -52,6 +231,9 @@ type PageInfo {
 }
 
 type Query {
+  like(where: LikeWhereUniqueInput!): Like
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like]!
+  likesConnection(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection!
   safari(where: SafariWhereUniqueInput!): Safari
   safaris(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Safari]!
   safarisConnection(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SafariConnection!
@@ -67,6 +249,7 @@ type Safari {
   title: String!
   description: String!
   postedBy: User
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
 }
 
 type SafariConnection {
@@ -79,6 +262,7 @@ input SafariCreateInput {
   title: String!
   description: String!
   postedBy: UserCreateOneWithoutSafarisInput
+  likes: LikeCreateManyWithoutSafariInput
 }
 
 input SafariCreateManyWithoutPostedByInput {
@@ -86,9 +270,21 @@ input SafariCreateManyWithoutPostedByInput {
   connect: [SafariWhereUniqueInput!]
 }
 
+input SafariCreateOneWithoutLikesInput {
+  create: SafariCreateWithoutLikesInput
+  connect: SafariWhereUniqueInput
+}
+
+input SafariCreateWithoutLikesInput {
+  title: String!
+  description: String!
+  postedBy: UserCreateOneWithoutSafarisInput
+}
+
 input SafariCreateWithoutPostedByInput {
   title: String!
   description: String!
+  likes: LikeCreateManyWithoutSafariInput
 }
 
 type SafariEdge {
@@ -192,6 +388,7 @@ input SafariUpdateInput {
   title: String
   description: String
   postedBy: UserUpdateOneWithoutSafarisInput
+  likes: LikeUpdateManyWithoutSafariInput
 }
 
 input SafariUpdateManyDataInput {
@@ -221,14 +418,33 @@ input SafariUpdateManyWithWhereNestedInput {
   data: SafariUpdateManyDataInput!
 }
 
+input SafariUpdateOneRequiredWithoutLikesInput {
+  create: SafariCreateWithoutLikesInput
+  update: SafariUpdateWithoutLikesDataInput
+  upsert: SafariUpsertWithoutLikesInput
+  connect: SafariWhereUniqueInput
+}
+
+input SafariUpdateWithoutLikesDataInput {
+  title: String
+  description: String
+  postedBy: UserUpdateOneWithoutSafarisInput
+}
+
 input SafariUpdateWithoutPostedByDataInput {
   title: String
   description: String
+  likes: LikeUpdateManyWithoutSafariInput
 }
 
 input SafariUpdateWithWhereUniqueWithoutPostedByInput {
   where: SafariWhereUniqueInput!
   data: SafariUpdateWithoutPostedByDataInput!
+}
+
+input SafariUpsertWithoutLikesInput {
+  update: SafariUpdateWithoutLikesDataInput!
+  create: SafariCreateWithoutLikesInput!
 }
 
 input SafariUpsertWithWhereUniqueWithoutPostedByInput {
@@ -289,6 +505,9 @@ input SafariWhereInput {
   description_ends_with: String
   description_not_ends_with: String
   postedBy: UserWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
   AND: [SafariWhereInput!]
   OR: [SafariWhereInput!]
   NOT: [SafariWhereInput!]
@@ -299,6 +518,7 @@ input SafariWhereUniqueInput {
 }
 
 type Subscription {
+  like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
   safari(where: SafariSubscriptionWhereInput): SafariSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -309,6 +529,7 @@ type User {
   email: String!
   password: String!
   safaris(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Safari!]
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
 }
 
 type UserConnection {
@@ -322,6 +543,12 @@ input UserCreateInput {
   email: String!
   password: String!
   safaris: SafariCreateManyWithoutPostedByInput
+  likes: LikeCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutSafarisInput {
@@ -329,10 +556,18 @@ input UserCreateOneWithoutSafarisInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutLikesInput {
+  name: String!
+  email: String!
+  password: String!
+  safaris: SafariCreateManyWithoutPostedByInput
+}
+
 input UserCreateWithoutSafarisInput {
   name: String!
   email: String!
   password: String!
+  likes: LikeCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -381,12 +616,20 @@ input UserUpdateInput {
   email: String
   password: String
   safaris: SafariUpdateManyWithoutPostedByInput
+  likes: LikeUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
+  update: UserUpdateWithoutLikesDataInput
+  upsert: UserUpsertWithoutLikesInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneWithoutSafarisInput {
@@ -398,10 +641,23 @@ input UserUpdateOneWithoutSafarisInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutLikesDataInput {
+  name: String
+  email: String
+  password: String
+  safaris: SafariUpdateManyWithoutPostedByInput
+}
+
 input UserUpdateWithoutSafarisDataInput {
   name: String
   email: String
   password: String
+  likes: LikeUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutLikesInput {
+  update: UserUpdateWithoutLikesDataInput!
+  create: UserCreateWithoutLikesInput!
 }
 
 input UserUpsertWithoutSafarisInput {
@@ -469,6 +725,9 @@ input UserWhereInput {
   safaris_every: SafariWhereInput
   safaris_some: SafariWhereInput
   safaris_none: SafariWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

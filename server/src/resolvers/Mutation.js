@@ -48,9 +48,30 @@ async function signup(parent, args, context, info) {
       postedBy: { connect: { id: userId } },
     })
   }
+
+  async function like(parent, args, context, info) {
+    // 1
+    const userId = getUserId(context)
+  
+    // 2
+    const safariExists = await context.prisma.$exists.like({
+      user: { id: userId },
+      safari: { id: args.safariId },
+    })
+    if (safariExists) {
+      throw new Error(`Already liked safari: ${args.safariId}`)
+    }
+  
+    // 3
+    return context.prisma.createLike({
+      user: { connect: { id: userId } },
+      safari: { connect: { id: args.safariId } },
+    })
+  }
   
   module.exports = {
     signup,
     login,
     post,
+    like
   }

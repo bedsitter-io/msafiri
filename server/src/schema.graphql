@@ -8,6 +8,7 @@ type Mutation {
 	post(title: String!, description: String!): Safari!
 	signup(email: String!, password: String!, name: String!): AuthPayload
   	login(email: String!, password: String!): AuthPayload
+	like(safariId: ID!): Like
 	updateSafari(id: ID!, title: String, description: String): Safari
 	deleteSafari(id: ID!): Safari
 }
@@ -17,6 +18,7 @@ type Safari {
 	title: String!
 	description: String!
 	postedBy: User
+	likes: [Like!]!
 }
 
 type AuthPayload {
@@ -29,4 +31,15 @@ type User {
   name: String!
   email: String!
   safaris: [Safari!]!
+}
+
+type Subscription {
+  newSafari: Safari
+  newLike: Like
+}
+
+type Like {
+  id: ID!
+  safari: Safari!
+  user: User!
 }

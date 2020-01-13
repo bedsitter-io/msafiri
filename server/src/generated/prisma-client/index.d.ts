@@ -16,6 +16,7 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  like: (where?: LikeWhereInput) => Promise<boolean>;
   safari: (where?: SafariWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -39,6 +40,25 @@ export interface Prisma {
    * Queries
    */
 
+  like: (where: LikeWhereUniqueInput) => LikeNullablePromise;
+  likes: (args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Like>;
+  likesConnection: (args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => LikeConnectionPromise;
   safari: (where: SafariWhereUniqueInput) => SafariNullablePromise;
   safaris: (args?: {
     where?: SafariWhereInput;
@@ -83,6 +103,18 @@ export interface Prisma {
    * Mutations
    */
 
+  createLike: (data: LikeCreateInput) => LikePromise;
+  updateLike: (args: {
+    data: LikeUpdateInput;
+    where: LikeWhereUniqueInput;
+  }) => LikePromise;
+  upsertLike: (args: {
+    where: LikeWhereUniqueInput;
+    create: LikeCreateInput;
+    update: LikeUpdateInput;
+  }) => LikePromise;
+  deleteLike: (where: LikeWhereUniqueInput) => LikePromise;
+  deleteManyLikes: (where?: LikeWhereInput) => BatchPayloadPromise;
   createSafari: (data: SafariCreateInput) => SafariPromise;
   updateSafari: (args: {
     data: SafariUpdateInput;
@@ -124,6 +156,9 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  like: (
+    where?: LikeSubscriptionWhereInput
+  ) => LikeSubscriptionPayloadSubscription;
   safari: (
     where?: SafariSubscriptionWhereInput
   ) => SafariSubscriptionPayloadSubscription;
@@ -150,6 +185,8 @@ export type SafariOrderByInput =
   | "description_ASC"
   | "description_DESC";
 
+export type LikeOrderByInput = "id_ASC" | "id_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
@@ -162,7 +199,7 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export type SafariWhereUniqueInput = AtLeastOne<{
+export type LikeWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
@@ -218,6 +255,9 @@ export interface SafariWhereInput {
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
   postedBy?: Maybe<UserWhereInput>;
+  likes_every?: Maybe<LikeWhereInput>;
+  likes_some?: Maybe<LikeWhereInput>;
+  likes_none?: Maybe<LikeWhereInput>;
   AND?: Maybe<SafariWhereInput[] | SafariWhereInput>;
   OR?: Maybe<SafariWhereInput[] | SafariWhereInput>;
   NOT?: Maybe<SafariWhereInput[] | SafariWhereInput>;
@@ -283,17 +323,56 @@ export interface UserWhereInput {
   safaris_every?: Maybe<SafariWhereInput>;
   safaris_some?: Maybe<SafariWhereInput>;
   safaris_none?: Maybe<SafariWhereInput>;
+  likes_every?: Maybe<LikeWhereInput>;
+  likes_some?: Maybe<LikeWhereInput>;
+  likes_none?: Maybe<LikeWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
+
+export interface LikeWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  safari?: Maybe<SafariWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<LikeWhereInput[] | LikeWhereInput>;
+  OR?: Maybe<LikeWhereInput[] | LikeWhereInput>;
+  NOT?: Maybe<LikeWhereInput[] | LikeWhereInput>;
+}
+
+export type SafariWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
   email?: Maybe<String>;
 }>;
 
-export interface SafariCreateInput {
+export interface LikeCreateInput {
+  safari: SafariCreateOneWithoutLikesInput;
+  user: UserCreateOneWithoutLikesInput;
+}
+
+export interface SafariCreateOneWithoutLikesInput {
+  create?: Maybe<SafariCreateWithoutLikesInput>;
+  connect?: Maybe<SafariWhereUniqueInput>;
+}
+
+export interface SafariCreateWithoutLikesInput {
   title: String;
   description: String;
   postedBy?: Maybe<UserCreateOneWithoutSafarisInput>;
@@ -308,9 +387,65 @@ export interface UserCreateWithoutSafarisInput {
   name: String;
   email: String;
   password: String;
+  likes?: Maybe<LikeCreateManyWithoutUserInput>;
 }
 
-export interface SafariUpdateInput {
+export interface LikeCreateManyWithoutUserInput {
+  create?: Maybe<LikeCreateWithoutUserInput[] | LikeCreateWithoutUserInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+}
+
+export interface LikeCreateWithoutUserInput {
+  safari: SafariCreateOneWithoutLikesInput;
+}
+
+export interface UserCreateOneWithoutLikesInput {
+  create?: Maybe<UserCreateWithoutLikesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutLikesInput {
+  name: String;
+  email: String;
+  password: String;
+  safaris?: Maybe<SafariCreateManyWithoutPostedByInput>;
+}
+
+export interface SafariCreateManyWithoutPostedByInput {
+  create?: Maybe<
+    SafariCreateWithoutPostedByInput[] | SafariCreateWithoutPostedByInput
+  >;
+  connect?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+}
+
+export interface SafariCreateWithoutPostedByInput {
+  title: String;
+  description: String;
+  likes?: Maybe<LikeCreateManyWithoutSafariInput>;
+}
+
+export interface LikeCreateManyWithoutSafariInput {
+  create?: Maybe<LikeCreateWithoutSafariInput[] | LikeCreateWithoutSafariInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+}
+
+export interface LikeCreateWithoutSafariInput {
+  user: UserCreateOneWithoutLikesInput;
+}
+
+export interface LikeUpdateInput {
+  safari?: Maybe<SafariUpdateOneRequiredWithoutLikesInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
+}
+
+export interface SafariUpdateOneRequiredWithoutLikesInput {
+  create?: Maybe<SafariCreateWithoutLikesInput>;
+  update?: Maybe<SafariUpdateWithoutLikesDataInput>;
+  upsert?: Maybe<SafariUpsertWithoutLikesInput>;
+  connect?: Maybe<SafariWhereUniqueInput>;
+}
+
+export interface SafariUpdateWithoutLikesDataInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   postedBy?: Maybe<UserUpdateOneWithoutSafarisInput>;
@@ -329,6 +464,59 @@ export interface UserUpdateWithoutSafarisDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+  likes?: Maybe<LikeUpdateManyWithoutUserInput>;
+}
+
+export interface LikeUpdateManyWithoutUserInput {
+  create?: Maybe<LikeCreateWithoutUserInput[] | LikeCreateWithoutUserInput>;
+  delete?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  set?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  disconnect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  update?: Maybe<
+    | LikeUpdateWithWhereUniqueWithoutUserInput[]
+    | LikeUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | LikeUpsertWithWhereUniqueWithoutUserInput[]
+    | LikeUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+}
+
+export interface LikeUpdateWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput;
+  data: LikeUpdateWithoutUserDataInput;
+}
+
+export interface LikeUpdateWithoutUserDataInput {
+  safari?: Maybe<SafariUpdateOneRequiredWithoutLikesInput>;
+}
+
+export interface LikeUpsertWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput;
+  update: LikeUpdateWithoutUserDataInput;
+  create: LikeCreateWithoutUserInput;
+}
+
+export interface LikeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  AND?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+  OR?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+  NOT?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
 }
 
 export interface UserUpsertWithoutSafarisInput {
@@ -336,31 +524,19 @@ export interface UserUpsertWithoutSafarisInput {
   create: UserCreateWithoutSafarisInput;
 }
 
-export interface SafariUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
+export interface SafariUpsertWithoutLikesInput {
+  update: SafariUpdateWithoutLikesDataInput;
+  create: SafariCreateWithoutLikesInput;
 }
 
-export interface UserCreateInput {
-  name: String;
-  email: String;
-  password: String;
-  safaris?: Maybe<SafariCreateManyWithoutPostedByInput>;
+export interface UserUpdateOneRequiredWithoutLikesInput {
+  create?: Maybe<UserCreateWithoutLikesInput>;
+  update?: Maybe<UserUpdateWithoutLikesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutLikesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface SafariCreateManyWithoutPostedByInput {
-  create?: Maybe<
-    SafariCreateWithoutPostedByInput[] | SafariCreateWithoutPostedByInput
-  >;
-  connect?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
-}
-
-export interface SafariCreateWithoutPostedByInput {
-  title: String;
-  description: String;
-}
-
-export interface UserUpdateInput {
+export interface UserUpdateWithoutLikesDataInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
@@ -398,6 +574,39 @@ export interface SafariUpdateWithWhereUniqueWithoutPostedByInput {
 export interface SafariUpdateWithoutPostedByDataInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
+  likes?: Maybe<LikeUpdateManyWithoutSafariInput>;
+}
+
+export interface LikeUpdateManyWithoutSafariInput {
+  create?: Maybe<LikeCreateWithoutSafariInput[] | LikeCreateWithoutSafariInput>;
+  delete?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  set?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  disconnect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  update?: Maybe<
+    | LikeUpdateWithWhereUniqueWithoutSafariInput[]
+    | LikeUpdateWithWhereUniqueWithoutSafariInput
+  >;
+  upsert?: Maybe<
+    | LikeUpsertWithWhereUniqueWithoutSafariInput[]
+    | LikeUpsertWithWhereUniqueWithoutSafariInput
+  >;
+  deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+}
+
+export interface LikeUpdateWithWhereUniqueWithoutSafariInput {
+  where: LikeWhereUniqueInput;
+  data: LikeUpdateWithoutSafariDataInput;
+}
+
+export interface LikeUpdateWithoutSafariDataInput {
+  user?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
+}
+
+export interface LikeUpsertWithWhereUniqueWithoutSafariInput {
+  where: LikeWhereUniqueInput;
+  update: LikeUpdateWithoutSafariDataInput;
+  create: LikeCreateWithoutSafariInput;
 }
 
 export interface SafariUpsertWithWhereUniqueWithoutPostedByInput {
@@ -472,10 +681,61 @@ export interface SafariUpdateManyDataInput {
   description?: Maybe<String>;
 }
 
+export interface UserUpsertWithoutLikesInput {
+  update: UserUpdateWithoutLikesDataInput;
+  create: UserCreateWithoutLikesInput;
+}
+
+export interface SafariCreateInput {
+  title: String;
+  description: String;
+  postedBy?: Maybe<UserCreateOneWithoutSafarisInput>;
+  likes?: Maybe<LikeCreateManyWithoutSafariInput>;
+}
+
+export interface SafariUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  postedBy?: Maybe<UserUpdateOneWithoutSafarisInput>;
+  likes?: Maybe<LikeUpdateManyWithoutSafariInput>;
+}
+
+export interface SafariUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  password: String;
+  safaris?: Maybe<SafariCreateManyWithoutPostedByInput>;
+  likes?: Maybe<LikeCreateManyWithoutUserInput>;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  safaris?: Maybe<SafariUpdateManyWithoutPostedByInput>;
+  likes?: Maybe<LikeUpdateManyWithoutUserInput>;
+}
+
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   email?: Maybe<String>;
   password?: Maybe<String>;
+}
+
+export interface LikeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LikeWhereInput>;
+  AND?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  OR?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  NOT?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
 }
 
 export interface SafariSubscriptionWhereInput {
@@ -504,6 +764,32 @@ export interface NodeNode {
   id: ID_Output;
 }
 
+export interface Like {
+  id: ID_Output;
+}
+
+export interface LikePromise extends Promise<Like>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  safari: <T = SafariPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface LikeSubscription
+  extends Promise<AsyncIterator<Like>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  safari: <T = SafariSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface LikeNullablePromise
+  extends Promise<Like | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  safari: <T = SafariPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
 export interface Safari {
   id: ID_Output;
   createdAt: DateTimeOutput;
@@ -517,6 +803,15 @@ export interface SafariPromise extends Promise<Safari>, Fragmentable {
   title: () => Promise<String>;
   description: () => Promise<String>;
   postedBy: <T = UserPromise>() => T;
+  likes: <T = FragmentableArray<Like>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface SafariSubscription
@@ -527,6 +822,15 @@ export interface SafariSubscription
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   postedBy: <T = UserSubscription>() => T;
+  likes: <T = Promise<AsyncIterator<LikeSubscription>>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface SafariNullablePromise
@@ -537,6 +841,15 @@ export interface SafariNullablePromise
   title: () => Promise<String>;
   description: () => Promise<String>;
   postedBy: <T = UserPromise>() => T;
+  likes: <T = FragmentableArray<Like>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface User {
@@ -554,6 +867,15 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   safaris: <T = FragmentableArray<Safari>>(args?: {
     where?: SafariWhereInput;
     orderBy?: SafariOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  likes: <T = FragmentableArray<Like>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -578,6 +900,15 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  likes: <T = Promise<AsyncIterator<LikeSubscription>>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface UserNullablePromise
@@ -596,27 +927,36 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  likes: <T = FragmentableArray<Like>>(args?: {
+    where?: LikeWhereInput;
+    orderBy?: LikeOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
-export interface SafariConnection {
+export interface LikeConnection {
   pageInfo: PageInfo;
-  edges: SafariEdge[];
+  edges: LikeEdge[];
 }
 
-export interface SafariConnectionPromise
-  extends Promise<SafariConnection>,
+export interface LikeConnectionPromise
+  extends Promise<LikeConnection>,
     Fragmentable {
   pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<SafariEdge>>() => T;
-  aggregate: <T = AggregateSafariPromise>() => T;
+  edges: <T = FragmentableArray<LikeEdge>>() => T;
+  aggregate: <T = AggregateLikePromise>() => T;
 }
 
-export interface SafariConnectionSubscription
-  extends Promise<AsyncIterator<SafariConnection>>,
+export interface LikeConnectionSubscription
+  extends Promise<AsyncIterator<LikeConnection>>,
     Fragmentable {
   pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<SafariEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateSafariSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LikeEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLikeSubscription>() => T;
 }
 
 export interface PageInfo {
@@ -640,6 +980,60 @@ export interface PageInfoSubscription
   hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
   startCursor: () => Promise<AsyncIterator<String>>;
   endCursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface LikeEdge {
+  node: Like;
+  cursor: String;
+}
+
+export interface LikeEdgePromise extends Promise<LikeEdge>, Fragmentable {
+  node: <T = LikePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LikeEdgeSubscription
+  extends Promise<AsyncIterator<LikeEdge>>,
+    Fragmentable {
+  node: <T = LikeSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateLike {
+  count: Int;
+}
+
+export interface AggregateLikePromise
+  extends Promise<AggregateLike>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLikeSubscription
+  extends Promise<AsyncIterator<AggregateLike>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SafariConnection {
+  pageInfo: PageInfo;
+  edges: SafariEdge[];
+}
+
+export interface SafariConnectionPromise
+  extends Promise<SafariConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SafariEdge>>() => T;
+  aggregate: <T = AggregateSafariPromise>() => T;
+}
+
+export interface SafariConnectionSubscription
+  extends Promise<AsyncIterator<SafariConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SafariEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSafariSubscription>() => T;
 }
 
 export interface SafariEdge {
@@ -743,6 +1137,47 @@ export interface BatchPayloadSubscription
   extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface LikeSubscriptionPayload {
+  mutation: MutationType;
+  node: Like;
+  updatedFields: String[];
+  previousValues: LikePreviousValues;
+}
+
+export interface LikeSubscriptionPayloadPromise
+  extends Promise<LikeSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LikePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LikePreviousValuesPromise>() => T;
+}
+
+export interface LikeSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LikeSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LikeSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LikePreviousValuesSubscription>() => T;
+}
+
+export interface LikePreviousValues {
+  id: ID_Output;
+}
+
+export interface LikePreviousValuesPromise
+  extends Promise<LikePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+}
+
+export interface LikePreviousValuesSubscription
+  extends Promise<AsyncIterator<LikePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
 }
 
 export interface SafariSubscriptionPayload {
@@ -889,6 +1324,10 @@ export const models: Model[] = [
   },
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Like",
     embedded: false
   }
 ];
