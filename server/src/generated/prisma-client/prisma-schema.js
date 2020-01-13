@@ -7,6 +7,10 @@ module.exports = {
   count: Int!
 }
 
+type AggregateUser {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -22,6 +26,12 @@ type Mutation {
   upsertSafari(where: SafariWhereUniqueInput!, create: SafariCreateInput!, update: SafariUpdateInput!): Safari!
   deleteSafari(where: SafariWhereUniqueInput!): Safari
   deleteManySafaris(where: SafariWhereInput): BatchPayload!
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -45,6 +55,9 @@ type Query {
   safari(where: SafariWhereUniqueInput!): Safari
   safaris(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Safari]!
   safarisConnection(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SafariConnection!
+  user(where: UserWhereUniqueInput!): User
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
@@ -53,6 +66,7 @@ type Safari {
   createdAt: DateTime!
   title: String!
   description: String!
+  postedBy: User
 }
 
 type SafariConnection {
@@ -62,6 +76,17 @@ type SafariConnection {
 }
 
 input SafariCreateInput {
+  title: String!
+  description: String!
+  postedBy: UserCreateOneWithoutSafarisInput
+}
+
+input SafariCreateManyWithoutPostedByInput {
+  create: [SafariCreateWithoutPostedByInput!]
+  connect: [SafariWhereUniqueInput!]
+}
+
+input SafariCreateWithoutPostedByInput {
   title: String!
   description: String!
 }
@@ -89,6 +114,62 @@ type SafariPreviousValues {
   description: String!
 }
 
+input SafariScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  AND: [SafariScalarWhereInput!]
+  OR: [SafariScalarWhereInput!]
+  NOT: [SafariScalarWhereInput!]
+}
+
 type SafariSubscriptionPayload {
   mutation: MutationType!
   node: Safari
@@ -110,11 +191,50 @@ input SafariSubscriptionWhereInput {
 input SafariUpdateInput {
   title: String
   description: String
+  postedBy: UserUpdateOneWithoutSafarisInput
+}
+
+input SafariUpdateManyDataInput {
+  title: String
+  description: String
 }
 
 input SafariUpdateManyMutationInput {
   title: String
   description: String
+}
+
+input SafariUpdateManyWithoutPostedByInput {
+  create: [SafariCreateWithoutPostedByInput!]
+  delete: [SafariWhereUniqueInput!]
+  connect: [SafariWhereUniqueInput!]
+  set: [SafariWhereUniqueInput!]
+  disconnect: [SafariWhereUniqueInput!]
+  update: [SafariUpdateWithWhereUniqueWithoutPostedByInput!]
+  upsert: [SafariUpsertWithWhereUniqueWithoutPostedByInput!]
+  deleteMany: [SafariScalarWhereInput!]
+  updateMany: [SafariUpdateManyWithWhereNestedInput!]
+}
+
+input SafariUpdateManyWithWhereNestedInput {
+  where: SafariScalarWhereInput!
+  data: SafariUpdateManyDataInput!
+}
+
+input SafariUpdateWithoutPostedByDataInput {
+  title: String
+  description: String
+}
+
+input SafariUpdateWithWhereUniqueWithoutPostedByInput {
+  where: SafariWhereUniqueInput!
+  data: SafariUpdateWithoutPostedByDataInput!
+}
+
+input SafariUpsertWithWhereUniqueWithoutPostedByInput {
+  where: SafariWhereUniqueInput!
+  update: SafariUpdateWithoutPostedByDataInput!
+  create: SafariCreateWithoutPostedByInput!
 }
 
 input SafariWhereInput {
@@ -168,6 +288,7 @@ input SafariWhereInput {
   description_not_starts_with: String
   description_ends_with: String
   description_not_ends_with: String
+  postedBy: UserWhereInput
   AND: [SafariWhereInput!]
   OR: [SafariWhereInput!]
   NOT: [SafariWhereInput!]
@@ -179,6 +300,183 @@ input SafariWhereUniqueInput {
 
 type Subscription {
   safari(where: SafariSubscriptionWhereInput): SafariSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+  safaris(where: SafariWhereInput, orderBy: SafariOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Safari!]
+}
+
+type UserConnection {
+  pageInfo: PageInfo!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
+}
+
+input UserCreateInput {
+  name: String!
+  email: String!
+  password: String!
+  safaris: SafariCreateManyWithoutPostedByInput
+}
+
+input UserCreateOneWithoutSafarisInput {
+  create: UserCreateWithoutSafarisInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutSafarisInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+enum UserOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  email_ASC
+  email_DESC
+  password_ASC
+  password_DESC
+}
+
+type UserPreviousValues {
+  id: ID!
+  name: String!
+  email: String!
+  password: String!
+}
+
+type UserSubscriptionPayload {
+  mutation: MutationType!
+  node: User
+  updatedFields: [String!]
+  previousValues: UserPreviousValues
+}
+
+input UserSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: UserWhereInput
+  AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
+}
+
+input UserUpdateInput {
+  name: String
+  email: String
+  password: String
+  safaris: SafariUpdateManyWithoutPostedByInput
+}
+
+input UserUpdateManyMutationInput {
+  name: String
+  email: String
+  password: String
+}
+
+input UserUpdateOneWithoutSafarisInput {
+  create: UserCreateWithoutSafarisInput
+  update: UserUpdateWithoutSafarisDataInput
+  upsert: UserUpsertWithoutSafarisInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutSafarisDataInput {
+  name: String
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutSafarisInput {
+  update: UserUpdateWithoutSafarisDataInput!
+  create: UserCreateWithoutSafarisInput!
+}
+
+input UserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  email: String
+  email_not: String
+  email_in: [String!]
+  email_not_in: [String!]
+  email_lt: String
+  email_lte: String
+  email_gt: String
+  email_gte: String
+  email_contains: String
+  email_not_contains: String
+  email_starts_with: String
+  email_not_starts_with: String
+  email_ends_with: String
+  email_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  safaris_every: SafariWhereInput
+  safaris_some: SafariWhereInput
+  safaris_none: SafariWhereInput
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+}
+
+input UserWhereUniqueInput {
+  id: ID
+  email: String
 }
 `
       }

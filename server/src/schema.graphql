@@ -6,6 +6,8 @@ type Query {
 
 type Mutation {
 	post(title: String!, description: String!): Safari!
+	signup(email: String!, password: String!, name: String!): AuthPayload
+  	login(email: String!, password: String!): AuthPayload
 	updateSafari(id: ID!, title: String, description: String): Safari
 	deleteSafari(id: ID!): Safari
 }
@@ -14,4 +16,17 @@ type Safari {
 	id: ID!
 	title: String!
 	description: String!
+	postedBy: User
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  safaris: [Safari!]!
 }

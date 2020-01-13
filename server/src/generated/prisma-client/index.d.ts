@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   safari: (where?: SafariWhereInput) => Promise<boolean>;
+  user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -57,6 +58,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => SafariConnectionPromise;
+  user: (where: UserWhereUniqueInput) => UserNullablePromise;
+  users: (args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<User>;
+  usersConnection: (args?: {
+    where?: UserWhereInput;
+    orderBy?: UserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => UserConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
@@ -79,6 +99,22 @@ export interface Prisma {
   }) => SafariPromise;
   deleteSafari: (where: SafariWhereUniqueInput) => SafariPromise;
   deleteManySafaris: (where?: SafariWhereInput) => BatchPayloadPromise;
+  createUser: (data: UserCreateInput) => UserPromise;
+  updateUser: (args: {
+    data: UserUpdateInput;
+    where: UserWhereUniqueInput;
+  }) => UserPromise;
+  updateManyUsers: (args: {
+    data: UserUpdateManyMutationInput;
+    where?: UserWhereInput;
+  }) => BatchPayloadPromise;
+  upsertUser: (args: {
+    where: UserWhereUniqueInput;
+    create: UserCreateInput;
+    update: UserUpdateInput;
+  }) => UserPromise;
+  deleteUser: (where: UserWhereUniqueInput) => UserPromise;
+  deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -91,6 +127,9 @@ export interface Subscription {
   safari: (
     where?: SafariSubscriptionWhereInput
   ) => SafariSubscriptionPayloadSubscription;
+  user: (
+    where?: UserSubscriptionWhereInput
+  ) => UserSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -110,6 +149,16 @@ export type SafariOrderByInput =
   | "title_DESC"
   | "description_ASC"
   | "description_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -168,24 +217,265 @@ export interface SafariWhereInput {
   description_not_starts_with?: Maybe<String>;
   description_ends_with?: Maybe<String>;
   description_not_ends_with?: Maybe<String>;
+  postedBy?: Maybe<UserWhereInput>;
   AND?: Maybe<SafariWhereInput[] | SafariWhereInput>;
   OR?: Maybe<SafariWhereInput[] | SafariWhereInput>;
   NOT?: Maybe<SafariWhereInput[] | SafariWhereInput>;
 }
 
+export interface UserWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  safaris_every?: Maybe<SafariWhereInput>;
+  safaris_some?: Maybe<SafariWhereInput>;
+  safaris_none?: Maybe<SafariWhereInput>;
+  AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+}>;
+
 export interface SafariCreateInput {
   title: String;
   description: String;
+  postedBy?: Maybe<UserCreateOneWithoutSafarisInput>;
+}
+
+export interface UserCreateOneWithoutSafarisInput {
+  create?: Maybe<UserCreateWithoutSafarisInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutSafarisInput {
+  name: String;
+  email: String;
+  password: String;
 }
 
 export interface SafariUpdateInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
+  postedBy?: Maybe<UserUpdateOneWithoutSafarisInput>;
+}
+
+export interface UserUpdateOneWithoutSafarisInput {
+  create?: Maybe<UserCreateWithoutSafarisInput>;
+  update?: Maybe<UserUpdateWithoutSafarisDataInput>;
+  upsert?: Maybe<UserUpsertWithoutSafarisInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutSafarisDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface UserUpsertWithoutSafarisInput {
+  update: UserUpdateWithoutSafarisDataInput;
+  create: UserCreateWithoutSafarisInput;
 }
 
 export interface SafariUpdateManyMutationInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
+}
+
+export interface UserCreateInput {
+  name: String;
+  email: String;
+  password: String;
+  safaris?: Maybe<SafariCreateManyWithoutPostedByInput>;
+}
+
+export interface SafariCreateManyWithoutPostedByInput {
+  create?: Maybe<
+    SafariCreateWithoutPostedByInput[] | SafariCreateWithoutPostedByInput
+  >;
+  connect?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+}
+
+export interface SafariCreateWithoutPostedByInput {
+  title: String;
+  description: String;
+}
+
+export interface UserUpdateInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  safaris?: Maybe<SafariUpdateManyWithoutPostedByInput>;
+}
+
+export interface SafariUpdateManyWithoutPostedByInput {
+  create?: Maybe<
+    SafariCreateWithoutPostedByInput[] | SafariCreateWithoutPostedByInput
+  >;
+  delete?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+  connect?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+  set?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+  disconnect?: Maybe<SafariWhereUniqueInput[] | SafariWhereUniqueInput>;
+  update?: Maybe<
+    | SafariUpdateWithWhereUniqueWithoutPostedByInput[]
+    | SafariUpdateWithWhereUniqueWithoutPostedByInput
+  >;
+  upsert?: Maybe<
+    | SafariUpsertWithWhereUniqueWithoutPostedByInput[]
+    | SafariUpsertWithWhereUniqueWithoutPostedByInput
+  >;
+  deleteMany?: Maybe<SafariScalarWhereInput[] | SafariScalarWhereInput>;
+  updateMany?: Maybe<
+    | SafariUpdateManyWithWhereNestedInput[]
+    | SafariUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SafariUpdateWithWhereUniqueWithoutPostedByInput {
+  where: SafariWhereUniqueInput;
+  data: SafariUpdateWithoutPostedByDataInput;
+}
+
+export interface SafariUpdateWithoutPostedByDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface SafariUpsertWithWhereUniqueWithoutPostedByInput {
+  where: SafariWhereUniqueInput;
+  update: SafariUpdateWithoutPostedByDataInput;
+  create: SafariCreateWithoutPostedByInput;
+}
+
+export interface SafariScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  AND?: Maybe<SafariScalarWhereInput[] | SafariScalarWhereInput>;
+  OR?: Maybe<SafariScalarWhereInput[] | SafariScalarWhereInput>;
+  NOT?: Maybe<SafariScalarWhereInput[] | SafariScalarWhereInput>;
+}
+
+export interface SafariUpdateManyWithWhereNestedInput {
+  where: SafariScalarWhereInput;
+  data: SafariUpdateManyDataInput;
+}
+
+export interface SafariUpdateManyDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+}
+
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
 }
 
 export interface SafariSubscriptionWhereInput {
@@ -197,6 +487,17 @@ export interface SafariSubscriptionWhereInput {
   AND?: Maybe<SafariSubscriptionWhereInput[] | SafariSubscriptionWhereInput>;
   OR?: Maybe<SafariSubscriptionWhereInput[] | SafariSubscriptionWhereInput>;
   NOT?: Maybe<SafariSubscriptionWhereInput[] | SafariSubscriptionWhereInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
 export interface NodeNode {
@@ -215,6 +516,7 @@ export interface SafariPromise extends Promise<Safari>, Fragmentable {
   createdAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   description: () => Promise<String>;
+  postedBy: <T = UserPromise>() => T;
 }
 
 export interface SafariSubscription
@@ -224,6 +526,7 @@ export interface SafariSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   title: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
+  postedBy: <T = UserSubscription>() => T;
 }
 
 export interface SafariNullablePromise
@@ -233,6 +536,66 @@ export interface SafariNullablePromise
   createdAt: () => Promise<DateTimeOutput>;
   title: () => Promise<String>;
   description: () => Promise<String>;
+  postedBy: <T = UserPromise>() => T;
+}
+
+export interface User {
+  id: ID_Output;
+  name: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  safaris: <T = FragmentableArray<Safari>>(args?: {
+    where?: SafariWhereInput;
+    orderBy?: SafariOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  safaris: <T = Promise<AsyncIterator<SafariSubscription>>>(args?: {
+    where?: SafariWhereInput;
+    orderBy?: SafariOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  safaris: <T = FragmentableArray<Safari>>(args?: {
+    where?: SafariWhereInput;
+    orderBy?: SafariOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface SafariConnection {
@@ -312,6 +675,60 @@ export interface AggregateSafariSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface BatchPayload {
   count: Long;
 }
@@ -378,6 +795,56 @@ export interface SafariPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
 }
 
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface UserPreviousValues {
+  id: ID_Output;
+  name: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+}
+
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+}
+
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
@@ -418,6 +885,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "Safari",
+    embedded: false
+  },
+  {
+    name: "User",
     embedded: false
   }
 ];
