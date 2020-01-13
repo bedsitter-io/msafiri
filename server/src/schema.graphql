@@ -1,7 +1,12 @@
 type Query {
 	info: String!
-	feed: [Safari!]!
+	feed(filter: String, skip: Int, first: Int, orderBy: SafariOrderByInput): Feed!
 	safari(id: ID!): Safari
+}
+
+type Feed {
+  safaris: [Safari!]!
+  count: Int!
 }
 
 type Mutation {
@@ -42,4 +47,13 @@ type Like {
   id: ID!
   safari: Safari!
   user: User!
+}
+
+enum SafariOrderByInput {
+  description_ASC
+  description_DESC
+  url_ASC
+  url_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
