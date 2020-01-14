@@ -12,19 +12,20 @@ const useStyles = makeStyles(theme => ({
   },
   menu: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   menuItem: {
     display: "flex",
-    padding: "6px 8px"
+    padding: "6px 20px"
   },
   item: {
     color: "#000",
     textDecoration: "none",
-    fontSize: "13px",
+    fontSize: "17px",
     fontFamily: "Helvetica Neue"
     },
   logo: {
+    paddingLeft: "20%",
     color: "#000",
     textDecoration: "none",
     fontSize: "27px",
@@ -34,10 +35,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const links = [
-  { href: '/safari', label: 'Safaris' },
-  { href: '/#', label: 'Destinations' },
-  { href: '/#', label: 'Hotels & Lodges' },
-  { href: '/#', label: 'Login' },
+  { href: '/safaris', label: 'Safaris' },
+  { href: '/destinations', label: 'Destinations' },
+  { href: '/hl', label: 'Hotels & Lodges' },
+  { href: '/auth', label: 'Login' },
 ].map(link => {
   link.key = `nav-link-${link.href}-${link.label}`
   return link
