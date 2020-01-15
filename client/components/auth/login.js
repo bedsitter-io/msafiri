@@ -15,32 +15,14 @@ const useStyles = makeStyles(theme => ({
       },
   }));
 
-const Destinations = () => {
+const Login = () => {
     const classes = useStyles();
     return (
     <div className={classes.root}>
-        <Grid container spacing={3}>
-            <Grid item xs={8}>
-            <Paper className={classes.paper} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`, height: "350px"}}>Kenya</Paper>
-            </Grid>
-            <Grid item xs>
-            <Paper className={classes.paper} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`, height: "350px"}}>Uganda</Paper>
-            </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-            <Grid item xs>
-            <Paper className={classes.paper} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`, height: "350px"}}>Tanzania</Paper>
-            </Grid>
-            <Grid item xs>
-            <Paper className={classes.paper} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`, height: "350px"}}>Zanzibar</Paper>
-            </Grid>
-            <Grid item xs>
-            <Paper className={classes.paper} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`, height: "350px"}}>Rwanda</Paper>
-            </Grid>
-        </Grid>
+<h2>login</h2>
     </div>
 
     );
 }
 
-export default Destinations;
+export default Login;

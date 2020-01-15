@@ -17,12 +17,6 @@ const useStyles = makeStyles(theme => ({
       color: "#fff",
       fontFamily: "Helvetica Neue"
     },
-    headerSubText: {
-      color: "15",
-      fontWeight: "normal",
-      color: "#fff",
-      fontFamily: "Helvetica Neue"
-    }
   }));
 
 const Header = () => {
@@ -31,7 +25,7 @@ const Header = () => {
       <div className={classes.heroContent} style={{ backgroundImage: `url('/img/LandingPageImage.jpg')`}}>
         <Container maxWidth="sm">
         <Typography component="h1" variant="h2" align="center" className={classes.headerText} gutterBottom>
-            Destinations
+            Login
         </Typography>
         </Container>
         </div>
