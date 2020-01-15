@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import clsx from 'clsx';
@@ -15,12 +15,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import FormatQuoteOutlinedIcon from '@material-ui/icons/FormatQuoteOutlined';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({    
     root: {
@@ -59,7 +58,7 @@ const useStyles = makeStyles(theme => ({
       },
       cover: {
         width: 80,
-      },
+      }
   }));
 
 const TopOperators = () => {
@@ -76,19 +75,18 @@ const TopOperators = () => {
             <Card className={classes.card}>
             <CardHeader
                 avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                    
-                </Avatar>
+                <Avatar aria-label="recipe" className={classes.avatar} src="/img/travel.jpg" />
                 }
                 title="Traverse Afrika"
                 subheader={
-                    <section>
+                    <IconButton style={{padding: "0"}}>
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
-                        <StarBorderIcon />
-                    </section>
+                        <StarBorderIcon/>
+                        <span style={{fontSize: "15px", color:"#000", marginLeft:"5px"}}>4.5</span>
+                    </IconButton>
                 }
             />
             <CardMedia
@@ -106,6 +104,7 @@ const TopOperators = () => {
                 <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
                 </IconButton>
+                0
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -121,30 +120,6 @@ const TopOperators = () => {
                 <CardContent>
                 <Typography component="h6" variant="h6">Top Safaris</Typography>
                 <hr />
-                <Card className={classes.insideCard}>                    
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h6" variant="h6">
-                            5 Days Mt Kenya
-                        </Typography>
-                        <section>
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                        </section>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
                 <Card className={classes.insideCard}>
                     <CardMedia
                         className={classes.cover}
@@ -153,27 +128,68 @@ const TopOperators = () => {
                     />
                     <div className={classes.details}>
                         <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
-                            Mombasa whitesands
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
-                <Card className={classes.insideCard}>
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
                             10 Maasai Mara
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
                             10 Reviews
                         </Typography>
                         </CardContent>
@@ -187,19 +203,18 @@ const TopOperators = () => {
             <Card className={classes.card}>
             <CardHeader
                 avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                    
-                </Avatar>
+                    <Avatar aria-label="recipe" className={classes.avatar} src="/img/travel.jpg" />
                 }
                 title="Traverse Afrika"
                 subheader={
-                    <section>
+                    <IconButton style={{padding: "0"}}>
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
-                        <StarBorderIcon />
-                    </section>
+                        <StarBorderIcon/>
+                        <span style={{fontSize: "15px", color:"#000", marginLeft:"5px"}}>4.5</span>
+                    </IconButton>
                 }
             />
             <CardMedia
@@ -217,6 +232,7 @@ const TopOperators = () => {
                 <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
                 </IconButton>
+                0
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -232,30 +248,6 @@ const TopOperators = () => {
                 <CardContent>
                 <Typography component="h6" variant="h6">Top Safaris</Typography>
                 <hr />
-                <Card className={classes.insideCard}>                    
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h6" variant="h6">
-                            5 Days Mt Kenya
-                        </Typography>
-                        <section>
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                        </section>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
                 <Card className={classes.insideCard}>
                     <CardMedia
                         className={classes.cover}
@@ -263,28 +255,69 @@ const TopOperators = () => {
                         title="Live from space album cover"
                     />
                     <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
-                            Mombasa whitesands
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
-                <Card className={classes.insideCard}>
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
                             10 Maasai Mara
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
                             10 Reviews
                         </Typography>
                         </CardContent>
@@ -298,19 +331,18 @@ const TopOperators = () => {
             <Card className={classes.card}>
             <CardHeader
                 avatar={
-                <Avatar aria-label="recipe" className={classes.avatar}>
-                    
-                </Avatar>
+                    <Avatar aria-label="recipe" className={classes.avatar} src="/img/travel.jpg" />
                 }
                 title="Traverse Afrika"
                 subheader={
-                    <section>
+                    <IconButton style={{padding: "0"}}>
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
                         <StarBorderIcon />
-                        <StarBorderIcon />
-                    </section>
+                        <StarBorderIcon/>
+                        <span style={{fontSize: "15px", color:"#000", marginLeft:"5px"}}>4.5</span>
+                        </IconButton>
                 }
             />
             <CardMedia
@@ -328,6 +360,7 @@ const TopOperators = () => {
                 <IconButton aria-label="add to favorites">
                 <FavoriteIcon />
                 </IconButton>
+                0
                 <IconButton
                     className={clsx(classes.expand, {
                         [classes.expandOpen]: expanded,
@@ -343,30 +376,6 @@ const TopOperators = () => {
                 <CardContent>
                 <Typography component="h6" variant="h6">Top Safaris</Typography>
                 <hr />
-                <Card className={classes.insideCard}>                    
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h6" variant="h6">
-                            5 Days Mt Kenya
-                        </Typography>
-                        <section>
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                            <StarIcon />
-                        </section>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
                 <Card className={classes.insideCard}>
                     <CardMedia
                         className={classes.cover}
@@ -374,28 +383,69 @@ const TopOperators = () => {
                         title="Live from space album cover"
                     />
                     <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
-                            Mombasa whitesands
-                        </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
-                            10 Reviews
-                        </Typography>
-                        </CardContent>
-                    </div>
-                </Card>
-                <Card className={classes.insideCard}>
-                    <CardMedia
-                        className={classes.cover}
-                        image="/img/Traveller.jpg"
-                        title="Live from space album cover"
-                    />
-                    <div className={classes.details}>
-                        <CardContent className={classes.content}>
-                        <Typography component="h5" variant="h5">
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
                             10 Maasai Mara
                         </Typography>
-                        <Typography variant="subtitle1" color="textSecondary">
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
+                            10 Reviews
+                        </Typography>
+                        </CardContent>
+                    </div>
+                </Card>
+                <Card className={classes.insideCard}>
+                    <CardMedia
+                        className={classes.cover}
+                        image="/img/Traveller.jpg"
+                        title="Live from space album cover"
+                    />
+                    <div className={classes.details}>
+                    <CardContent className={classes.content}>
+                        <Typography component="h5" variant="h5" gutterBottom variant="subtitle1">
+                            10 Maasai Mara
+                        </Typography>
+                        <IconButton style={{padding: "0"}}>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <StarBorderIcon style={{fontSize: "20px"}}/>
+                            <span style={{fontSize: "15px", color:"#000", marginLeft:"1px"}}>4.5</span>
+                        </IconButton>
+                        <Typography variant="body2" color="textSecondary">
                             10 Reviews
                         </Typography>
                         </CardContent>
