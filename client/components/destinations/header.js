@@ -17,12 +17,6 @@ const useStyles = makeStyles(theme => ({
       color: "#fff",
       fontFamily: "Helvetica Neue"
     },
-    headerSubText: {
-      color: "15",
-      fontWeight: "normal",
-      color: "#fff",
-      fontFamily: "Helvetica Neue"
-    }
   }));
 
 const Header = () => {
