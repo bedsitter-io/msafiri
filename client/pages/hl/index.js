@@ -2,7 +2,40 @@ import React from 'react'
 import Head from 'next/head'
 import Nav from '../../components/nav'
 
-const HL = () => (
+import Header from '../../components/hl/header'
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Link from '@material-ui/core/Link';
+
+const useStyles = makeStyles(theme => ({
+  container: {
+    paddingTop: 40,
+  },
+  copyright: {
+    paddingBottom: theme.spacing(2),
+    paddingTop: theme.spacing(6),
+  }
+}));
+
+function Copyright() {
+  const classes = useStyles();
+  return (
+    <Typography variant="body2" color="textSecondary" align="center" className={classes.copyright}>
+      {'Copyright © '}
+      <Link color="inherit" href="#">
+        Msafiri.com
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+const Auth = () => {
+    const classes = useStyles();
+return (
   <div>
     <Head>
       <title>Hotels & Lodges</title>
@@ -10,28 +43,21 @@ const HL = () => (
     </Head>
 
     <Nav />
-
-    <div className="hero">
-      <h1 className="title">Welcome to a Hotels and Lodges</h1>
-    </div>
-
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title {
-        text-align: center;
-      }
-    `}</style>
+    <Header />
+    <main>
+      <Container className={classes.container} maxWidth="md">
+        <div style={{flexGrow: "1"}}>
+          <Grid container spacing={3}>
+          Hotels
+          </Grid>
+        </div>
+      </Container>
+    </main>
+    <Container maxWidth="md">
+        <Copyright />
+     </Container>
   </div>
 )
+}
 
-export default HL
+export default Auth
